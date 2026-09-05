@@ -1,192 +1,40 @@
 <!doctype html>
 <html lang="es-MX">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#080b12" media="(prefers-color-scheme: dark)">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Gabo Finanzas">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <title>Gabo Finanzas</title>
-  <style>
-    :root{
-      --bg:#f3f5fa; --surface:rgba(255,255,255,.72); --surface-strong:rgba(255,255,255,.92);
-      --text:#111318; --muted:#727782; --line:rgba(15,20,30,.09); --shadow:0 18px 50px rgba(20,30,55,.12);
-      --accent:#5b6cff; --accent2:#8a5dff; --good:#16a36d; --warn:#e89421; --bad:#df4e5f;
-      --tab:rgba(252,253,255,.74); --blur:blur(26px) saturate(160%);
-    }
-    @media (prefers-color-scheme: dark){
-      :root{--bg:#080b12;--surface:rgba(24,28,38,.70);--surface-strong:rgba(27,31,42,.92);--text:#f5f7fb;--muted:#9ca3b1;--line:rgba(255,255,255,.08);--shadow:0 20px 60px rgba(0,0,0,.38);--tab:rgba(18,21,30,.75)}
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;background:radial-gradient(circle at 18% 0%,rgba(105,113,255,.16),transparent 36%),radial-gradient(circle at 100% 12%,rgba(180,97,255,.12),transparent 34%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif;min-height:100%}
-    body{padding:env(safe-area-inset-top) 0 calc(92px + env(safe-area-inset-bottom));}
-    button,input,select{font:inherit}
-    .app{max-width:760px;margin:0 auto;padding:16px 16px 32px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 14px}
-    .eyebrow{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-    h1{font-size:31px;line-height:1.02;margin:4px 0 0;letter-spacing:-.04em}
-    h2{font-size:20px;margin:0;letter-spacing:-.02em}
-    .avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:800;box-shadow:0 10px 26px rgba(91,108,255,.35)}
-    .card{background:var(--surface);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}
-    .hero{padding:22px;margin-bottom:14px;overflow:hidden;position:relative}
-    .hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:linear-gradient(135deg,rgba(91,108,255,.3),rgba(138,93,255,.05));right:-60px;top:-75px;filter:blur(2px)}
-    .hero-label{font-size:13px;color:var(--muted);font-weight:700}
-    .money{font-size:46px;font-weight:800;letter-spacing:-.055em;margin-top:4px;position:relative;z-index:1}
-    .hero-sub{margin-top:8px;color:var(--muted);font-size:14px;position:relative;z-index:1}
-    .chips{display:flex;gap:8px;overflow:auto;padding:2px 0 1px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
-    .chip{flex:0 0 auto;padding:9px 12px;border-radius:999px;background:var(--surface-strong);border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-    .metric{padding:16px}.metric .k{font-size:12px;color:var(--muted);font-weight:700}.metric .v{font-size:23px;font-weight:800;margin-top:4px;letter-spacing:-.03em}.metric .s{font-size:11px;color:var(--muted);margin-top:4px}
-    .section{margin-top:20px}.section-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 10px}.section-head button{border:0;background:transparent;color:var(--accent);font-weight:750;padding:6px 0}
-    .list{overflow:hidden}.row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}
-    .icon{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:rgba(91,108,255,.11);font-size:18px;font-weight:800;color:var(--accent)}
-    .row-main{flex:1;min-width:0}.row-title{font-weight:760;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row-sub{font-size:12px;color:var(--muted);margin-top:3px}.row-amount{text-align:right;font-weight:800}.row-amount small{display:block;color:var(--muted);font-weight:600;margin-top:3px}
-    .pill{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}.pill.good{background:rgba(22,163,109,.12);color:var(--good)}.pill.warn{background:rgba(232,148,33,.14);color:var(--warn)}.pill.bad{background:rgba(223,78,95,.13);color:var(--bad)}
-    .tabbar{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(720px,calc(100% - 24px));background:var(--tab);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:25px;box-shadow:0 18px 50px rgba(0,0,0,.18);display:grid;grid-template-columns:repeat(5,1fr);padding:7px;z-index:20}
-    .tab{border:0;background:transparent;color:var(--muted);padding:8px 2px;border-radius:18px;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px}.tab span:first-child{font-size:20px;line-height:1}.tab.active{color:var(--text);background:var(--surface-strong)}
-    .view{display:none}.view.active{display:block}
-    .plan-card{padding:18px}.plan-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.plan-line:last-child{border-bottom:0}.plan-line strong{font-size:15px}.plan-line span{color:var(--muted);font-size:13px}.plan-total{font-size:30px;font-weight:850;letter-spacing:-.04em;margin-top:4px}
-    .progress{height:8px;border-radius:999px;background:rgba(125,130,145,.14);overflow:hidden;margin-top:10px}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px}
-    .form-sheet{position:fixed;inset:0;background:rgba(0,0,0,.28);backdrop-filter:blur(10px);z-index:30;display:none;align-items:flex-end}.form-sheet.show{display:flex}.sheet{width:100%;max-width:760px;margin:0 auto;background:var(--surface-strong);border-radius:30px 30px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));border:1px solid var(--line);box-shadow:0 -20px 60px rgba(0,0,0,.2)}
-    .grab{width:44px;height:5px;border-radius:999px;background:var(--line);margin:0 auto 14px}.sheet h3{margin:0 0 14px;font-size:22px}.field{margin-bottom:10px}.field label{display:block;color:var(--muted);font-size:12px;font-weight:700;margin:0 0 6px 4px}.field input,.field select{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:16px;padding:13px 14px;outline:none}.btn{width:100%;border:0;border-radius:17px;padding:14px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}.btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--line);margin-top:8px}
-    .empty{padding:28px;text-align:center;color:var(--muted)}
-    .note{font-size:12px;color:var(--muted);line-height:1.45;padding:0 3px;margin-top:10px}
-    @media (min-width:700px){.app{padding-top:26px}.hero{padding:28px}.money{font-size:54px}}
-  </style>
-</head>
-<body>
-<div class="app">
-  <div class="topbar">
-    <div><div class="eyebrow">Ciclo 28 → 27</div><h1>Mis finanzas</h1></div>
-    <div class="avatar">G</div>
-  </div>
-
-  <main>
-    <section id="view-home" class="view active">
-      <div class="card hero">
-        <div class="hero-label">Disponible estimado después de compromisos</div>
-        <div class="money" id="freeMoney">$0</div>
-        <div class="hero-sub" id="cycleText">Calculando tu ciclo actual…</div>
-        <div class="chips" style="margin-top:14px">
-          <div class="chip" id="incomeChip">Ingreso $20,000</div>
-          <div class="chip" id="commitChip">Compromisos $0</div>
-          <div class="chip" id="debtChip">Deuda $0</div>
-        </div>
-      </div>
-      <div class="grid">
-        <div class="card metric"><div class="k">Pagos del ciclo</div><div class="v" id="cyclePayments">$0</div><div class="s">Obligatorios o planeados</div></div>
-        <div class="card metric"><div class="k">Gastos fijos</div><div class="v" id="fixedTotal">$0</div><div class="s">AT&T + despensa + otros</div></div>
-      </div>
-      <div class="section">
-        <div class="section-head"><h2>Próximos pagos</h2><button onclick="switchView('plan')">Ver plan</button></div>
-        <div class="card list" id="upcomingList"></div>
-      </div>
-      <div class="section">
-        <div class="section-head"><h2>Suscripciones</h2><button onclick="switchView('subs')">Ver todas</button></div>
-        <div class="card list" id="homeSubs"></div>
-      </div>
-    </section>
-
-    <section id="view-plan" class="view">
-      <div class="card plan-card">
-        <div class="eyebrow">Plan del día 28</div>
-        <div class="plan-total" id="planAvailable">$0 disponibles</div>
-        <div class="progress"><i id="planProgress" style="width:0%"></i></div>
-        <div class="note">Primero se reservan los compromisos del ciclo. Después decides cuánto extra mandar a deuda.</div>
-      </div>
-      <div class="section">
-        <div class="section-head"><h2>Desglose</h2></div>
-        <div class="card list" id="planList"></div>
-      </div>
-    </section>
-
-    <section id="view-credits" class="view">
-      <div class="section-head"><div><div class="eyebrow">9 compromisos</div><h2>Créditos y pagos</h2></div><button onclick="openDebtSheet()">Añadir</button></div>
-      <div class="card list" id="creditList"></div>
-    </section>
-
-    <section id="view-subs" class="view">
-      <div class="section-head"><div><div class="eyebrow">Recurrentes</div><h2>Suscripciones</h2></div><button onclick="openSubSheet()">Añadir</button></div>
-      <div class="card list" id="subsList"></div>
-    </section>
-
-    <section id="view-settings" class="view">
-      <div class="section-head"><div><div class="eyebrow">Configuración</div><h2>Presupuesto</h2></div></div>
-      <div class="card" style="padding:16px">
-        <div class="field"><label>Ingreso mensual</label><input id="incomeInput" type="number" inputmode="decimal"></div>
-        <div class="field"><label>Despensa mensual</label><input id="pantryInput" type="number" inputmode="decimal"></div>
-        <div class="field"><label>Colchón deseado</label><input id="bufferInput" type="number" inputmode="decimal"></div>
-        <button class="btn" onclick="saveSettings()">Guardar cambios</button>
-      </div>
-      <div class="section"><div class="card plan-card"><div class="eyebrow">Datos locales</div><h2 style="margin-top:5px">Tus datos se guardan en este iPhone</h2><div class="note">Esta versión usa almacenamiento local del navegador. Si borras los datos de Safari, los registros pueden perderse.</div><button class="btn secondary" onclick="resetDemo()">Restaurar datos base</button></div></div>
-    </section>
-  </main>
-</div>
-
-<nav class="tabbar">
-  <button class="tab active" data-view="home" onclick="switchView('home')"><span>⌂</span><span>Inicio</span></button>
-  <button class="tab" data-view="plan" onclick="switchView('plan')"><span>◫</span><span>Plan</span></button>
-  <button class="tab" data-view="credits" onclick="switchView('credits')"><span>◉</span><span>Créditos</span></button>
-  <button class="tab" data-view="subs" onclick="switchView('subs')"><span>↻</span><span>Recurrentes</span></button>
-  <button class="tab" data-view="settings" onclick="switchView('settings')"><span>⚙︎</span><span>Ajustes</span></button>
-</nav>
-
-<div class="form-sheet" id="subSheet"><div class="sheet"><div class="grab"></div><h3>Nueva suscripción</h3><div class="field"><label>Nombre</label><input id="subName"></div><div class="field"><label>Monto mensual</label><input id="subAmount" type="number" inputmode="decimal"></div><div class="field"><label>Día de cobro</label><input id="subDay" type="number" min="1" max="31"></div><div class="field"><label>Medio de pago</label><input id="subCard" placeholder="Ej. Santander"></div><button class="btn" onclick="addSub()">Guardar suscripción</button><button class="btn secondary" onclick="closeSheets()">Cancelar</button></div></div>
-<div class="form-sheet" id="debtSheet"><div class="sheet"><div class="grab"></div><h3>Nuevo compromiso</h3><div class="field"><label>Nombre</label><input id="debtName"></div><div class="field"><label>Saldo total</label><input id="debtBalance" type="number" inputmode="decimal"></div><div class="field"><label>Pago del ciclo</label><input id="debtPayment" type="number" inputmode="decimal"></div><div class="field"><label>Día límite</label><input id="debtDue" type="number" min="1" max="31"></div><button class="btn" onclick="addDebt()">Guardar compromiso</button><button class="btn secondary" onclick="closeSheets()">Cancelar</button></div></div>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#080b12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gabo Finanzas">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>Gabo Finanzas</title>
+<style>
+:root{--bg:#f3f5fa;--surface:rgba(255,255,255,.72);--surface-strong:rgba(255,255,255,.92);--text:#111318;--muted:#727782;--line:rgba(15,20,30,.09);--shadow:0 18px 50px rgba(20,30,55,.12);--accent:#5b6cff;--accent2:#8a5dff;--good:#16a36d;--warn:#e89421;--bad:#df4e5f;--tab:rgba(252,253,255,.74);--blur:blur(26px) saturate(160%)}
+@media(prefers-color-scheme:dark){:root{--bg:#080b12;--surface:rgba(24,28,38,.70);--surface-strong:rgba(27,31,42,.92);--text:#f5f7fb;--muted:#9ca3b1;--line:rgba(255,255,255,.08);--shadow:0 20px 60px rgba(0,0,0,.38);--tab:rgba(18,21,30,.75)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 18% 0%,rgba(105,113,255,.16),transparent 36%),radial-gradient(circle at 100% 12%,rgba(180,97,255,.12),transparent 34%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif}body{padding:env(safe-area-inset-top) 0 calc(92px + env(safe-area-inset-bottom))}button,input{font:inherit}.app{max-width:760px;margin:0 auto;padding:16px 16px 32px}.topbar{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 14px}.eyebrow{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase}h1{font-size:31px;line-height:1.02;margin:4px 0 0;letter-spacing:-.04em}h2{font-size:20px;margin:0;letter-spacing:-.02em}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:800;box-shadow:0 10px 26px rgba(91,108,255,.35)}.card{background:var(--surface);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}.hero{padding:22px;margin-bottom:14px;overflow:hidden;position:relative}.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:linear-gradient(135deg,rgba(91,108,255,.3),rgba(138,93,255,.05));right:-60px;top:-75px}.hero-label{font-size:13px;color:var(--muted);font-weight:700}.money{font-size:46px;font-weight:800;letter-spacing:-.055em;margin-top:4px;position:relative;z-index:1}.hero-sub{margin-top:8px;color:var(--muted);font-size:14px;position:relative;z-index:1}.chips{display:flex;gap:8px;overflow:auto;margin-top:14px;scrollbar-width:none}.chip{flex:0 0 auto;padding:9px 12px;border-radius:999px;background:var(--surface-strong);border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.metric{padding:16px}.metric .k{font-size:12px;color:var(--muted);font-weight:700}.metric .v{font-size:23px;font-weight:800;margin-top:4px;letter-spacing:-.03em}.metric .s{font-size:11px;color:var(--muted);margin-top:4px}.section{margin-top:20px}.section-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 10px}.section-head button{border:0;background:transparent;color:var(--accent);font-weight:750;padding:6px 0}.list{overflow:hidden}.row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.icon{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:rgba(91,108,255,.11);font-size:18px;font-weight:800;color:var(--accent)}.row-main{flex:1;min-width:0}.row-title{font-weight:760;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row-sub{font-size:12px;color:var(--muted);margin-top:3px}.row-amount{text-align:right;font-weight:800}.row-amount small{display:block;margin-top:3px}.pill{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}.pill.good{background:rgba(22,163,109,.12);color:var(--good)}.pill.warn{background:rgba(232,148,33,.14);color:var(--warn)}.view{display:none}.view.active{display:block}.plan-card,.summary-card{padding:18px}.plan-total,.summary-total{font-size:30px;font-weight:850;letter-spacing:-.04em;margin-top:4px}.summary-sub{font-size:13px;color:var(--muted);margin-top:6px}.progress{height:8px;border-radius:999px;background:rgba(125,130,145,.14);overflow:hidden;margin-top:10px}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px}.note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px}.tabbar{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(720px,calc(100% - 24px));background:var(--tab);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:25px;box-shadow:0 18px 50px rgba(0,0,0,.18);display:grid;grid-template-columns:repeat(5,1fr);padding:7px;z-index:20}.tab{border:0;background:transparent;color:var(--muted);padding:8px 2px;border-radius:18px;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px}.tab span:first-child{font-size:20px}.tab.active{color:var(--text);background:var(--surface-strong)}.form-sheet{position:fixed;inset:0;background:rgba(0,0,0,.28);backdrop-filter:blur(10px);z-index:30;display:none;align-items:flex-end}.form-sheet.show{display:flex}.sheet{width:100%;max-width:760px;margin:0 auto;background:var(--surface-strong);border-radius:30px 30px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));border:1px solid var(--line)}.grab{width:44px;height:5px;border-radius:999px;background:var(--line);margin:0 auto 14px}.sheet h3{margin:0 0 14px;font-size:22px}.field{margin-bottom:10px}.field label{display:block;color:var(--muted);font-size:12px;font-weight:700;margin:0 0 6px 4px}.field input{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:16px;padding:13px 14px;outline:none}.btn{width:100%;border:0;border-radius:17px;padding:14px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}.btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--line);margin-top:8px}.empty{padding:28px;text-align:center;color:var(--muted)}
+</style>
+</head><body><div class="app"><div class="topbar"><div><div class="eyebrow">Ciclo 28 → 27</div><h1>Mis finanzas</h1></div><div class="avatar">G</div></div><main>
+<section id="view-home" class="view active"><div class="card hero"><div class="hero-label">Disponible estimado después de compromisos</div><div class="money" id="freeMoney">$0</div><div class="hero-sub" id="cycleText"></div><div class="chips"><div class="chip" id="incomeChip"></div><div class="chip" id="commitChip"></div><div class="chip" id="debtChip"></div></div></div><div class="grid"><div class="card metric"><div class="k">Pagos de créditos</div><div class="v" id="creditPaymentsMetric">$0</div><div class="s">Tarjetas y créditos del ciclo</div></div><div class="card metric"><div class="k">Gastos fijos</div><div class="v" id="fixedTotalMetric">$0</div><div class="s">AT&T + despensa</div></div></div><div class="section"><div class="section-head"><h2>Próximos pagos</h2><button onclick="switchView('plan')">Ver plan</button></div><div class="card list" id="upcomingList"></div></div><div class="section"><div class="section-head"><h2>Suscripciones</h2><button onclick="switchView('subs')">Ver todas</button></div><div class="card list" id="homeSubs"></div></div></section>
+<section id="view-plan" class="view"><div class="card plan-card"><div class="eyebrow">Plan del día 28</div><div class="plan-total" id="planAvailable"></div><div class="progress"><i id="planProgress"></i></div><div class="note">Primero se reservan créditos, gastos fijos y suscripciones. Después se protege el colchón.</div></div><div class="section"><div class="section-head"><h2>Desglose</h2></div><div class="card list" id="planList"></div></div></section>
+<section id="view-credits" class="view"><div class="section-head"><div><div class="eyebrow">9 compromisos</div><h2>Créditos y pagos</h2></div><button onclick="openDebtSheet()">Añadir</button></div><div class="card list" id="creditList"></div></section>
+<section id="view-subs" class="view"><div class="section-head"><div><div class="eyebrow">Recurrentes</div><h2>Suscripciones</h2></div><button onclick="openSubSheet()">Añadir</button></div><div class="card summary-card"><div class="eyebrow">Total mensual de suscripciones</div><div class="summary-total" id="subsTotal">$0</div><div class="summary-sub" id="subsCount"></div></div><div class="section"><div class="card list" id="subsList"></div></div></section>
+<section id="view-settings" class="view"><div class="section-head"><div><div class="eyebrow">Configuración</div><h2>Presupuesto</h2></div></div><div class="card" style="padding:16px"><div class="field"><label>Ingreso mensual</label><input id="incomeInput" type="number"></div><div class="field"><label>Despensa mensual</label><input id="pantryInput" type="number"></div><div class="field"><label>Colchón deseado</label><input id="bufferInput" type="number"></div><button class="btn" onclick="saveSettings()">Guardar cambios</button></div></section>
+</main></div>
+<nav class="tabbar"><button class="tab active" data-view="home" onclick="switchView('home')"><span>⌂</span><span>Inicio</span></button><button class="tab" data-view="plan" onclick="switchView('plan')"><span>◫</span><span>Plan</span></button><button class="tab" data-view="credits" onclick="switchView('credits')"><span>◉</span><span>Créditos</span></button><button class="tab" data-view="subs" onclick="switchView('subs')"><span>↻</span><span>Recurrentes</span></button><button class="tab" data-view="settings" onclick="switchView('settings')"><span>⚙︎</span><span>Ajustes</span></button></nav>
+<div class="form-sheet" id="subSheet"><div class="sheet"><div class="grab"></div><h3>Nueva suscripción</h3><div class="field"><label>Nombre</label><input id="subName"></div><div class="field"><label>Monto mensual</label><input id="subAmount" type="number"></div><div class="field"><label>Día de cobro</label><input id="subDay" type="number"></div><div class="field"><label>Medio de pago</label><input id="subCard"></div><button class="btn" onclick="addSub()">Guardar suscripción</button><button class="btn secondary" onclick="closeSheets()">Cancelar</button></div></div>
+<div class="form-sheet" id="debtSheet"><div class="sheet"><div class="grab"></div><h3>Nuevo compromiso</h3><div class="field"><label>Nombre</label><input id="debtName"></div><div class="field"><label>Saldo total</label><input id="debtBalance" type="number"></div><div class="field"><label>Pago del ciclo</label><input id="debtPayment" type="number"></div><div class="field"><label>Día límite</label><input id="debtDue" type="number"></div><button class="btn" onclick="addDebt()">Guardar compromiso</button><button class="btn secondary" onclick="closeSheets()">Cancelar</button></div></div>
 <script>
-const BASE = {
- settings:{income:20000, pantry:2500, buffer:3000},
- debts:[
-  {name:'American Express Gold Elite',balance:5880.61,payment:470.44,due:17,status:'Pendiente',type:'Crédito'},
-  {name:'Plata Card',balance:9750.85,payment:2990.56,due:18,status:'Pendiente',type:'Crédito'},
-  {name:'Sears',balance:16139.19,payment:1625.50,due:21,status:'50% compartido',type:'Crédito'},
-  {name:'Santander Gold',balance:1571.69,payment:1027.31,due:23,status:'PNGI',type:'Crédito'},
-  {name:'Suburbia',balance:4874.15,payment:0,due:21,status:'MSI / corte pendiente',type:'Crédito'},
-  {name:'Mercado Pago TDC',balance:4296.60,payment:330.50,due:23,status:'3 de 15',type:'Crédito'},
-  {name:'Mercado Crédito',balance:0,payment:2592,due:30,status:'Proyección próximo ciclo',type:'Crédito'},
-  {name:'Nu TDC',balance:0,payment:0,due:2,status:'Liquidada',type:'Crédito'},
-  {name:'AT&T',balance:0,payment:1400,due:19,status:'Servicio fijo',type:'Servicio'}
- ],
- subs:[
-  {name:'YouTube Premium',amount:319,day:28,card:'Santander'},
-  {name:'iCloud',amount:49,day:30,card:'Santander'},
-  {name:'iCloud Brittany',amount:49,day:6,card:'Santander'},
-  {name:'Apple Music',amount:69,day:8,card:'Santander'},
-  {name:'Spotify',amount:74,day:9,card:'Santander'},
-  {name:'Prime Video',amount:99,day:11,card:'Santander'},
-  {name:'Suscripción Nu',amount:39,day:1,card:'Nu'}
- ]
-};
-let state = JSON.parse(localStorage.getItem('gaboFinanzasV1') || 'null') || structuredClone(BASE);
-const fmt = n => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:2}).format(Number(n||0));
-function save(){localStorage.setItem('gaboFinanzasV1',JSON.stringify(state));renderAll()}
-function cycleLabel(){const d=new Date(), y=d.getFullYear(), m=d.getMonth(), day=d.getDate(); let start,end;if(day>=28){start=new Date(y,m,28);end=new Date(y,m+1,27)}else{start=new Date(y,m-1,28);end=new Date(y,m,27)}return `${start.toLocaleDateString('es-MX',{day:'numeric',month:'short'})} – ${end.toLocaleDateString('es-MX',{day:'numeric',month:'short'})}`}
-function totalDebt(){return state.debts.reduce((s,d)=>s+(d.balance||0),0)}
-function totalPayments(){return state.debts.reduce((s,d)=>s+(d.payment||0),0)}
-function subTotal(){return state.subs.reduce((s,x)=>s+(x.amount||0),0)}
-function fixedTotal(){return (state.settings.pantry||0)+1400+subTotal()}
-function commitments(){return totalPayments()+state.settings.pantry+subTotal()}
-function freeMoney(){return state.settings.income-commitments()-state.settings.buffer}
+const BASE={settings:{income:20000,pantry:2500,buffer:3000},debts:[{name:'American Express Gold Elite',balance:5880.61,payment:470.44,due:17,status:'Pendiente',type:'Crédito'},{name:'Plata Card',balance:9750.85,payment:2990.56,due:18,status:'Pendiente',type:'Crédito'},{name:'Sears',balance:16139.19,payment:1625.50,due:21,status:'50% compartido',type:'Crédito'},{name:'Santander Gold',balance:1571.69,payment:1027.31,due:23,status:'PNGI',type:'Crédito'},{name:'Suburbia',balance:4874.15,payment:0,due:21,status:'MSI / corte pendiente',type:'Crédito'},{name:'Mercado Pago TDC',balance:4296.60,payment:330.50,due:23,status:'3 de 15',type:'Crédito'},{name:'Mercado Crédito',balance:0,payment:2592,due:30,status:'Proyección próximo ciclo',type:'Crédito'},{name:'Nu TDC',balance:0,payment:0,due:2,status:'Liquidada',type:'Crédito'},{name:'AT&T',balance:0,payment:1400,due:19,status:'Servicio fijo',type:'Servicio'}],subs:[{name:'YouTube Premium',amount:319,day:28,card:'Santander'},{name:'iCloud',amount:49,day:30,card:'Santander'},{name:'iCloud Brittany',amount:49,day:6,card:'Santander'},{name:'Apple Music',amount:69,day:8,card:'Santander'},{name:'Spotify',amount:74,day:9,card:'Santander'},{name:'Prime Video',amount:99,day:11,card:'Santander'},{name:'Suscripción Nu',amount:39,day:1,card:'Nu'}]};
+let state=JSON.parse(localStorage.getItem('gaboFinanzasV1')||'null')||structuredClone(BASE);const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:2}).format(Number(n||0));const save=()=>{localStorage.setItem('gaboFinanzasV1',JSON.stringify(state));renderAll()};
+function cycleLabel(){const d=new Date(),y=d.getFullYear(),m=d.getMonth(),day=d.getDate();let s,e;if(day>=28){s=new Date(y,m,28);e=new Date(y,m+1,27)}else{s=new Date(y,m-1,28);e=new Date(y,m,27)}return `${s.toLocaleDateString('es-MX',{day:'numeric',month:'short'})} – ${e.toLocaleDateString('es-MX',{day:'numeric',month:'short'})}`}
+const creditDebts=()=>state.debts.filter(d=>d.type==='Crédito');const serviceDebts=()=>state.debts.filter(d=>d.type==='Servicio');const totalDebt=()=>creditDebts().reduce((s,d)=>s+(d.balance||0),0);const creditPayments=()=>creditDebts().reduce((s,d)=>s+(d.payment||0),0);const servicePayments=()=>serviceDebts().reduce((s,d)=>s+(d.payment||0),0);const subTotal=()=>state.subs.reduce((s,x)=>s+(x.amount||0),0);const fixedTotal=()=>Number(state.settings.pantry||0)+servicePayments();const commitments=()=>creditPayments()+fixedTotal()+subTotal();const freeMoney=()=>state.settings.income-commitments()-state.settings.buffer;
 function rowHTML(icon,title,sub,amount,tag='',tagClass='warn'){return `<div class="row"><div class="icon">${icon}</div><div class="row-main"><div class="row-title">${title}</div><div class="row-sub">${sub}</div></div><div class="row-amount">${fmt(amount)}${tag?`<small><span class="pill ${tagClass}">${tag}</span></small>`:''}</div></div>`}
-function renderHome(){document.getElementById('freeMoney').textContent=fmt(Math.max(0,freeMoney()));document.getElementById('cycleText').textContent=`Ciclo ${cycleLabel()} · colchón protegido ${fmt(state.settings.buffer)}`;document.getElementById('incomeChip').textContent=`Ingreso ${fmt(state.settings.income)}`;document.getElementById('commitChip').textContent=`Compromisos ${fmt(commitments())}`;document.getElementById('debtChip').textContent=`Deuda ${fmt(totalDebt())}`;document.getElementById('cyclePayments').textContent=fmt(totalPayments());document.getElementById('fixedTotal').textContent=fmt(fixedTotal());let upcoming=[...state.debts].sort((a,b)=>a.due-b.due).slice(0,6);document.getElementById('upcomingList').innerHTML=upcoming.map(d=>rowHTML(d.type==='Servicio'?'☎':'₿',d.name,`Vence día ${d.due} · ${d.status}`,d.payment,d.payment===0?'Sin pago':d.status,d.payment===0?'good':'warn')).join('')||'<div class="empty">Sin pagos próximos</div>';document.getElementById('homeSubs').innerHTML=[...state.subs].sort((a,b)=>a.day-b.day).slice(0,4).map(s=>rowHTML('↻',s.name,`Día ${s.day} · ${s.card}`,s.amount)).join('')||'<div class="empty">Sin suscripciones</div>'}
-function renderPlan(){let used=commitments()+state.settings.buffer, pct=Math.min(100,used/state.settings.income*100);document.getElementById('planAvailable').textContent=`${fmt(Math.max(0,freeMoney()))} libres`;document.getElementById('planProgress').style.width=pct+'%';let rows=[...state.debts.filter(d=>d.payment>0).map(d=>({n:d.name,s:`Pago día ${d.due}`,a:d.payment})),{n:'Despensa',s:'Reserva mensual',a:state.settings.pantry},{n:'Suscripciones',s:`${state.subs.length} recurrentes`,a:subTotal()},{n:'Colchón',s:'Dinero protegido',a:state.settings.buffer}];document.getElementById('planList').innerHTML=rows.map(r=>rowHTML('•',r.n,r.s,r.a)).join('')}
-function renderCredits(){document.getElementById('creditList').innerHTML=state.debts.map(d=>rowHTML(d.type==='Servicio'?'☎':'◉',d.name,`Saldo ${fmt(d.balance)} · vence ${d.due}`,d.payment,d.status,d.balance===0?'good':'warn')).join('')}
-function renderSubs(){document.getElementById('subsList').innerHTML=state.subs.sort((a,b)=>a.day-b.day).map(s=>rowHTML('↻',s.name,`Cobro día ${s.day} · ${s.card}`,s.amount)).join('')||'<div class="empty">Sin suscripciones</div>'}
-function renderSettings(){incomeInput.value=state.settings.income;pantryInput.value=state.settings.pantry;bufferInput.value=state.settings.buffer}
-function renderAll(){renderHome();renderPlan();renderCredits();renderSubs();renderSettings()}
-function switchView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('view-'+name).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===name));window.scrollTo({top:0,behavior:'smooth'})}
-function openSubSheet(){subSheet.classList.add('show')}function openDebtSheet(){debtSheet.classList.add('show')}function closeSheets(){document.querySelectorAll('.form-sheet').forEach(x=>x.classList.remove('show'))}
-function addSub(){if(!subName.value||!subAmount.value)return;state.subs.push({name:subName.value,amount:+subAmount.value,day:+subDay.value||1,card:subCard.value||'Sin asignar'});subName.value=subAmount.value=subDay.value=subCard.value='';closeSheets();save()}
-function addDebt(){if(!debtName.value)return;state.debts.push({name:debtName.value,balance:+debtBalance.value||0,payment:+debtPayment.value||0,due:+debtDue.value||1,status:'Nuevo',type:'Crédito'});debtName.value=debtBalance.value=debtPayment.value=debtDue.value='';closeSheets();save()}
-function saveSettings(){state.settings.income=+incomeInput.value||0;state.settings.pantry=+pantryInput.value||0;state.settings.buffer=+bufferInput.value||0;save()}
-function resetDemo(){if(confirm('¿Restaurar la información base?')){state=structuredClone(BASE);save()}}
-renderAll();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
-</script>
-</body>
-</html>
+function renderHome(){freeMoneyEl.textContent=fmt(Math.max(0,freeMoney()));cycleText.textContent=`Ciclo ${cycleLabel()} · colchón protegido ${fmt(state.settings.buffer)}`;incomeChip.textContent=`Ingreso ${fmt(state.settings.income)}`;commitChip.textContent=`Compromisos ${fmt(commitments())}`;debtChip.textContent=`Deuda ${fmt(totalDebt())}`;creditPaymentsMetric.textContent=fmt(creditPayments());fixedTotalMetric.textContent=fmt(fixedTotal());upcomingList.innerHTML=[...state.debts].sort((a,b)=>a.due-b.due).slice(0,6).map(d=>rowHTML(d.type==='Servicio'?'☎':'◉',d.name,`Vence día ${d.due} · ${d.status}`,d.payment,d.payment===0?'Sin pago':d.status,d.payment===0?'good':'warn')).join('')||'<div class="empty">Sin pagos próximos</div>';homeSubs.innerHTML=[...state.subs].sort((a,b)=>a.day-b.day).slice(0,4).map(s=>rowHTML('↻',s.name,`Día ${s.day} · ${s.card}`,s.amount)).join('')}
+function renderPlan(){const used=commitments()+state.settings.buffer;planAvailable.textContent=`${fmt(Math.max(0,freeMoney()))} libres`;planProgress.style.width=Math.min(100,used/state.settings.income*100)+'%';const rows=[{n:'Pagos de créditos',s:'Tarjetas y créditos del ciclo',a:creditPayments()},{n:'Gastos fijos',s:'AT&T + despensa',a:fixedTotal()},{n:'Suscripciones',s:`${state.subs.length} recurrentes`,a:subTotal()},{n:'Colchón',s:'Dinero protegido',a:state.settings.buffer}];planList.innerHTML=rows.map(r=>rowHTML('•',r.n,r.s,r.a)).join('')}
+function renderCredits(){creditList.innerHTML=state.debts.map(d=>rowHTML(d.type==='Servicio'?'☎':'◉',d.name,`Saldo ${fmt(d.balance)} · vence ${d.due}`,d.payment,d.status,d.balance===0?'good':'warn')).join('')}
+function renderSubs(){subsTotal.textContent=fmt(subTotal());subsCount.textContent=`${state.subs.length} suscripciones activas`;subsList.innerHTML=[...state.subs].sort((a,b)=>a.day-b.day).map(s=>rowHTML('↻',s.name,`Cobro día ${s.day} · ${s.card}`,s.amount)).join('')||'<div class="empty">Sin suscripciones</div>'}
+function renderSettings(){incomeInput.value=state.settings.income;pantryInput.value=state.settings.pantry;bufferInput.value=state.settings.buffer}function renderAll(){renderHome();renderPlan();renderCredits();renderSubs();renderSettings()}function switchView(n){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('view-'+n).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===n));window.scrollTo({top:0,behavior:'smooth'})}function openSubSheet(){subSheet.classList.add('show')}function openDebtSheet(){debtSheet.classList.add('show')}function closeSheets(){document.querySelectorAll('.form-sheet').forEach(x=>x.classList.remove('show'))}function addSub(){if(!subName.value||!subAmount.value)return;state.subs.push({name:subName.value,amount:+subAmount.value,day:+subDay.value||1,card:subCard.value||'Sin asignar'});closeSheets();save()}function addDebt(){if(!debtName.value)return;state.debts.push({name:debtName.value,balance:+debtBalance.value||0,payment:+debtPayment.value||0,due:+debtDue.value||1,status:'Nuevo',type:'Crédito'});closeSheets();save()}function saveSettings(){state.settings.income=+incomeInput.value||0;state.settings.pantry=+pantryInput.value||0;state.settings.buffer=+bufferInput.value||0;save()}
+const freeMoneyEl=document.getElementById('freeMoney');renderAll();if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script></body></html>
