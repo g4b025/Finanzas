@@ -1,6 +1,7 @@
 {
   "processedMessageIds": [
-    "1a0976b623e71153"
+    "1a0976b623e71153",
+    "1a09bc4a6e357f94"
   ],
   "lastPubSubHistoryId": null,
   "manualAdjustments": [
@@ -9,9 +10,9 @@
       "amount": 155,
       "direction": "out",
       "remainingMatches": 1,
-      "note": "Compra manual registrada antes de activar Gmail push"
+      "note": "Compra manual ya aplicada al saldo; ignorar un correo Santander coincidente para evitar doble cargo"
     }
   ],
-  "pendingManualDelta": -155,
-  "updatedAt": "2026-09-13T17:20:00.000Z"
+  "pendingManualDelta": 0,
+  "updatedAt": "2026-09-13T17:30:00.000Z"
 }
