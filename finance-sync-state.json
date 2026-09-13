@@ -1,0 +1,16 @@
+{
+  "processedMessageIds": [
+    "1a0976b623e71153"
+  ],
+  "lastPubSubHistoryId": null,
+  "manualAdjustments": [
+    {
+      "date": "2026-09-13",
+      "amount": 155,
+      "direction": "out",
+      "remainingMatches": 1,
+      "note": "Compra manual registrada antes de activar Gmail push"
+    }
+  ],
+  "updatedAt": "2026-09-13T16:25:00.000Z"
+}
