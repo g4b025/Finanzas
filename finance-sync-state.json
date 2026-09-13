@@ -1,9 +1,13 @@
 {
   "processedMessageIds": [
     "1a0976b623e71153",
-    "1a09bc4a6e357f94"
+    "1a09bc4a6e357f94",
+    "1a0937af38052440",
+    "1a09632398785266",
+    "1a097c457ca6971f",
+    "1a09bcf3d3744fd1"
   ],
-  "lastPubSubHistoryId": null,
+  "lastPubSubHistoryId": 2830448,
   "manualAdjustments": [
     {
       "date": "2026-09-13",
@@ -14,5 +18,5 @@
     }
   ],
   "pendingManualDelta": 0,
-  "updatedAt": "2026-09-13T17:30:00.000Z"
+  "updatedAt": "2026-09-13T17:37:39.964Z"
 }
