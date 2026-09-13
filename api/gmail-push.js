@@ -48,7 +48,7 @@ function parseAmount(text){
   const patterns=[
     /(?:monto|importe|cantidad|por un monto)[^$\d]{0,40}\$?\s*([\d,]+\.\d{2})/i,
     /\$\s*([\d,]+\.\d{2})/i,
-    /\b([\d,]+\.\d{2})\s*(?:mxn|pesos)\b/i
+    /\b([\d,]+\.\d{2})\s*(?:mxn|mxp|pesos)\b/i
   ];
   for(const p of patterns){
     const m=text.match(p);
@@ -60,7 +60,7 @@ function parseAmount(text){
 function classify(text){
   const t=text.toLowerCase();
   const incoming=['depósito','deposito','abono','transferencia recibida','spei recibido','recibiste','ingreso'];
-  const outgoing=['retiro de efectivo','compra','transferencia realizada','transferencia enviada','cargo','domiciliación','domiciliacion','pago realizado'];
+  const outgoing=['retiro de efectivo','compra','transferencia realizada','transferencia enviada','realizaste una transferencia','realizó una transferencia','realizo una transferencia','cargo','domiciliación','domiciliacion','pago realizado'];
   if(incoming.some(x=>t.includes(x))) return 1;
   if(outgoing.some(x=>t.includes(x))) return -1;
   return 0;
@@ -121,7 +121,7 @@ module.exports=async function handler(req,res){
     const stateFile=await getRepoFile('finance-sync-state.json');
     const state=JSON.parse(stateFile.text);
     const processed=new Set(state.processedMessageIds||[]);
-    const last4=process.env.SANTANDER_DEBIT_LAST4||'5439';
+    const debitIds=(process.env.SANTANDER_DEBIT_IDS||`${process.env.SANTANDER_DEBIT_LAST4||'5439'},1515`).split(',').map(x=>x.trim()).filter(Boolean);
     const rows=[];
 
     for(const x of list.messages||[]){
@@ -131,14 +131,15 @@ module.exports=async function handler(req,res){
       const raw=`${headers.subject||''} ${msg.snippet||''} ${stripHtml(collectText(msg.payload))}`;
       const amount=parseAmount(raw);
       const sign=classify(raw);
-      const isDebit=raw.includes(last4);
+      const isDebit=debitIds.some(id=>raw.includes(id));
       rows.push({id:x.id,internalDate:msg.internalDate||'0',raw,amount,sign,isDebit,subject:headers.subject||''});
     }
 
     rows.sort((a,b)=>Number(a.internalDate)-Number(b.internalDate));
-    let net=0;
+    let net=Number(state.pendingManualDelta||0);
     let lastId=null,lastDate=null;
     const applied=[];
+    if(net) applied.push({amount:Math.abs(net),direction:net<0?'out':'in',source:'pending-manual-adjustment'});
 
     for(const r of rows){
       processed.add(r.id);
@@ -154,6 +155,7 @@ module.exports=async function handler(req,res){
     }
 
     await updateFinance(net,lastId,lastDate);
+    state.pendingManualDelta=0;
     state.processedMessageIds=Array.from(processed).slice(-250);
     state.lastPubSubHistoryId=data.historyId||state.lastPubSubHistoryId||null;
     state.updatedAt=new Date().toISOString();
