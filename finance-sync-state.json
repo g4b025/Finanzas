@@ -16,8 +16,15 @@
       "direction": "out",
       "remainingMatches": 1,
       "note": "Compra manual ya aplicada al saldo; ignorar un correo Santander coincidente para evitar doble cargo"
+    },
+    {
+      "date": "2026-09-13",
+      "amount": 168.4,
+      "direction": "out",
+      "remainingMatches": 1,
+      "note": "Compra manual ya aplicada al saldo; ignorar un correo Santander coincidente para evitar doble cargo"
     }
   ],
   "pendingManualDelta": 0,
-  "updatedAt": "2026-09-14T01:56:32.321Z"
+  "updatedAt": "2026-09-14T02:00:00.000Z"
 }
