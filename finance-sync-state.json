@@ -17,9 +17,10 @@
     "1a0a813ade70c202",
     "1a0aa9eb75669089",
     "1a0ab79f21db1428",
-    "1a0ac655aa07d1ea"
+    "1a0ac655aa07d1ea",
+    "1a0af9e3d7bdee2c"
   ],
-  "lastPubSubHistoryId": 2838979,
+  "lastPubSubHistoryId": 2839045,
   "manualAdjustments": [
     {
       "date": "2026-09-13",
@@ -37,5 +38,5 @@
     }
   ],
   "pendingManualDelta": 0,
-  "updatedAt": "2026-09-17T13:43:45.418Z"
+  "updatedAt": "2026-09-17T13:46:22.329Z"
 }
