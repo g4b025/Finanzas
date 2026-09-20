@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-20T22:44:00.000Z",
+  "cards": [
+    {
+      "id": "santander-gold",
+      "name": "Santander Gold",
+      "kind": "credit_card",
+      "creditLine": 3700,
+      "balance": 1215.38,
+      "used": 1215.38,
+      "available": 2484.62,
+      "recommended": 1215.38,
+      "dueDay": 23,
+      "autoSync": true,
+      "last4": "8500"
+    },
+    {
+      "id": "amex-gold",
+      "name": "AMEX Gold Elite",
+      "kind": "credit_card",
+      "creditLine": 8700,
+      "balance": 5901.85,
+      "used": 8379,
+      "available": 321,
+      "recommended": 5901.85,
+      "dueDay": 17,
+      "autoSync": true,
+      "last4": "21007"
+    },
+    {
+      "id": "plata",
+      "name": "Plata",
+      "kind": "credit_card",
+      "creditLine": 10500,
+      "balance": 8440.75,
+      "used": 8440.75,
+      "available": 2059.25,
+      "recommended": 1662.74,
+      "dueDay": 19,
+      "autoSync": false
+    },
+    {
+      "id": "suburbia",
+      "name": "Suburbia",
+      "kind": "credit_card",
+      "creditLine": 5000,
+      "balance": 4874.15,
+      "used": 4874.15,
+      "available": 125.85,
+      "recommended": null,
+      "dueDay": 21,
+      "autoSync": false
+    },
+    {
+      "id": "mercado-pago-credito",
+      "name": "Mercado Pago",
+      "kind": "credit",
+      "creditLine": null,
+      "balance": null,
+      "used": null,
+      "available": null,
+      "recommended": 2592.54,
+      "dueDay": null,
+      "autoSync": false
+    },
+    {
+      "id": "mercado-pago-tdc",
+      "name": "Mercado Pago TDC",
+      "kind": "credit_card",
+      "creditLine": null,
+      "balance": 4296.6,
+      "used": 4296.6,
+      "available": null,
+      "recommended": 350,
+      "dueDay": 23,
+      "autoSync": false
+    }
+  ]
+}
