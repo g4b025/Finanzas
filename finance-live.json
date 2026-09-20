@@ -1,9 +1,9 @@
 {
-  "version": 34,
+  "version": 35,
   "debitNow": 57.23,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
-  "updatedAt": "2026-09-17T23:22:13.140Z",
+  "updatedAt": "2026-09-20T22:56:52.400Z",
   "cards": [
     {
       "id": "santander-gold",
@@ -65,12 +65,12 @@
     {
       "id": "mercado-pago-tdc",
       "name": "Mercado Pago TDC",
-      "creditLine": null,
-      "balance": 4296.6,
-      "used": 4296.6,
-      "available": null,
-      "recommended": 350,
-      "dueDay": 23,
+      "creditLine": 7900,
+      "balance": 3986,
+      "used": 3986,
+      "available": 3914,
+      "recommended": 350.5,
+      "dueDay": 13,
       "autoSync": false
     }
   ],
