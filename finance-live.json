@@ -1,5 +1,5 @@
 {
-  "version": 33,
+  "version": 34,
   "debitNow": 57.23,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
@@ -74,5 +74,6 @@
       "autoSync": false
     }
   ],
-  "transactions": []
+  "transactions": [],
+  "paypalSyncStartAt": "2026-09-20T22:50:00.000Z"
 }
