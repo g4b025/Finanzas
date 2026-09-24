@@ -1,9 +1,9 @@
 {
-  "version": 35,
+  "version": 36,
   "debitNow": 57.23,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
-  "updatedAt": "2026-09-20T22:56:52.400Z",
+  "updatedAt": "2026-09-24T17:22:21.101Z",
   "cards": [
     {
       "id": "santander-gold",
@@ -44,12 +44,17 @@
       "id": "suburbia",
       "name": "Suburbia",
       "creditLine": 5000,
-      "balance": 4874.15,
-      "used": 4874.15,
-      "available": 125.85,
-      "recommended": null,
+      "balance": 4951.15,
+      "used": 4951.15,
+      "available": 48.85,
+      "recommended": 1352.86,
       "dueDay": 21,
-      "autoSync": false
+      "autoSync": false,
+      "statementMinimum": 97.97,
+      "statementMinPlusMonths": 637.71,
+      "statementNoInterest": 1352.86,
+      "cutoffDate": "2026-09-21",
+      "dueDate": "2026-10-21"
     },
     {
       "id": "mercado-pago-credito",
