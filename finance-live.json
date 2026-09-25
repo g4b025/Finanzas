@@ -1,9 +1,9 @@
 {
-  "version": 36,
-  "debitNow": 57.23,
+  "version": 37,
+  "debitNow": 3057.23,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
-  "updatedAt": "2026-09-24T17:22:21.101Z",
+  "updatedAt": "2026-09-25T21:21:08.097Z",
   "cards": [
     {
       "id": "santander-gold",
@@ -80,5 +80,13 @@
     }
   ],
   "transactions": [],
-  "paypalSyncStartAt": "2026-09-20T22:50:00.000Z"
+  "paypalSyncStartAt": "2026-09-20T22:50:00.000Z",
+  "manualAdjustments": [
+    {
+      "type": "deposit",
+      "amount": 3000,
+      "date": "2026-09-25T21:21:08.097Z",
+      "note": "Depósito reportado por usuario"
+    }
+  ]
 }
