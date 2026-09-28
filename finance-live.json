@@ -1,9 +1,9 @@
 {
-  "version": 39,
+  "version": 40,
   "debitNow": 10551.41,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
-  "updatedAt": "2026-09-28T17:54:48.489Z",
+  "updatedAt": "2026-09-28T17:57:58.547Z",
   "cards": [
     {
       "id": "santander-gold",
@@ -21,15 +21,16 @@
       "id": "amex-gold",
       "name": "AMEX Gold Elite",
       "creditLine": 8700,
-      "balance": 5901.85,
-      "used": 8379,
-      "available": 321,
+      "balance": 3901.85,
+      "used": 3901.85,
+      "available": 4798.15,
       "recommended": 350,
       "dueDay": 19,
       "autoSync": true,
       "last4": "1007",
-      "status": "Pago realizado; mínimo próximo ciclo $350",
-      "statementMinimum": 350
+      "status": "Pago de $2,500 realizado; mínimo próximo ciclo $350",
+      "statementMinimum": 350,
+      "paymentMade": 2500
     },
     {
       "id": "plata",
@@ -91,7 +92,26 @@
       "paymentMade": 350.5
     }
   ],
-  "transactions": [],
+  "transactions": [
+    {
+      "sourceId": "manual-amex-payment-2500-2026-09-28",
+      "cardId": "amex-gold",
+      "date": "2026-09-28",
+      "amount": 2500,
+      "direction": "incoming",
+      "concept": "Pago AMEX",
+      "source": "manual"
+    },
+    {
+      "sourceId": "manual-amex-gas-500-2026-09-28",
+      "cardId": "amex-gold",
+      "date": "2026-09-28",
+      "amount": 500,
+      "direction": "outgoing",
+      "concept": "Gasolina",
+      "source": "manual"
+    }
+  ],
   "paypalSyncStartAt": "2026-09-20T22:50:00.000Z",
   "manualAdjustments": [
     {
@@ -105,6 +125,20 @@
       "amount": 10551.41,
       "date": "2026-09-05T08:40:00.000-06:00",
       "note": "Saldo de débito confirmado por usuario"
+    },
+    {
+      "type": "card_payment",
+      "cardId": "amex-gold",
+      "amount": 2500,
+      "date": "2026-09-28",
+      "note": "Pago AMEX reportado por usuario"
+    },
+    {
+      "type": "card_charge",
+      "cardId": "amex-gold",
+      "amount": 500,
+      "date": "2026-09-28",
+      "note": "Gasolina reportada por usuario"
     }
   ],
   "debitCommitments": [
@@ -117,10 +151,10 @@
   "debts": [
     {
       "name": "American Express Gold Elite",
-      "balance": 5901.85,
+      "balance": 3901.85,
       "recommended": 350,
       "due": 19,
-      "status": "Pago realizado · mínimo del próximo ciclo $350",
+      "status": "Pago de $2,500 realizado · mínimo próximo ciclo $350",
       "state": "pending"
     },
     {
