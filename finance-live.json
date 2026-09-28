@@ -1,9 +1,9 @@
 {
-  "version": 38,
+  "version": 39,
   "debitNow": 10551.41,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
-  "updatedAt": "2026-09-05T08:40:00.000-06:00",
+  "updatedAt": "2026-09-28T17:54:48.489Z",
   "cards": [
     {
       "id": "santander-gold",
@@ -24,21 +24,28 @@
       "balance": 5901.85,
       "used": 8379,
       "available": 321,
-      "recommended": 5901.85,
-      "dueDay": 17,
+      "recommended": 350,
+      "dueDay": 19,
       "autoSync": true,
-      "last4": "1007"
+      "last4": "1007",
+      "status": "Pago realizado; mínimo próximo ciclo $350",
+      "statementMinimum": 350
     },
     {
       "id": "plata",
       "name": "Plata",
-      "creditLine": 11000,
-      "balance": 8440.75,
-      "used": 8440.75,
-      "available": 2559.25,
-      "recommended": 1662.74,
+      "creditLine": 10500,
+      "balance": 7064.25,
+      "used": 7064.25,
+      "available": 3435.75,
+      "recommended": 0,
       "dueDay": 19,
-      "autoSync": false
+      "autoSync": false,
+      "status": "Pagado este ciclo",
+      "paymentMade": 2000,
+      "statementMinimum": 800,
+      "statementMinPlusMonths": 1662.74,
+      "statementFull": 5332.87
     },
     {
       "id": "suburbia",
@@ -47,14 +54,16 @@
       "balance": 4951.15,
       "used": 4951.15,
       "available": 48.85,
-      "recommended": 1352.86,
+      "recommended": 0,
       "dueDay": 21,
       "autoSync": false,
       "statementMinimum": 97.97,
       "statementMinPlusMonths": 637.71,
       "statementNoInterest": 1352.86,
       "cutoffDate": "2026-09-21",
-      "dueDate": "2026-10-21"
+      "dueDate": "2026-10-21",
+      "status": "Pagado este ciclo",
+      "paymentMade": 1352.86
     },
     {
       "id": "mercado-pago-credito",
@@ -63,9 +72,10 @@
       "balance": null,
       "used": null,
       "available": null,
-      "recommended": 2592.54,
+      "recommended": 0,
       "dueDay": null,
-      "autoSync": false
+      "autoSync": false,
+      "status": "Pagado este ciclo"
     },
     {
       "id": "mercado-pago-tdc",
@@ -74,9 +84,11 @@
       "balance": 3986,
       "used": 3986,
       "available": 3914,
-      "recommended": 350.5,
+      "recommended": 0,
       "dueDay": 13,
-      "autoSync": false
+      "autoSync": false,
+      "status": "Pagado este ciclo",
+      "paymentMade": 350.5
     }
   ],
   "transactions": [],
@@ -93,6 +105,125 @@
       "amount": 10551.41,
       "date": "2026-09-05T08:40:00.000-06:00",
       "note": "Saldo de débito confirmado por usuario"
+    }
+  ],
+  "debitCommitments": [
+    {
+      "name": "Sam's",
+      "amount": 2895.89,
+      "status": "Cargo pendiente en débito en los próximos días"
+    }
+  ],
+  "debts": [
+    {
+      "name": "American Express Gold Elite",
+      "balance": 5901.85,
+      "recommended": 350,
+      "due": 19,
+      "status": "Pago realizado · mínimo del próximo ciclo $350",
+      "state": "pending"
+    },
+    {
+      "name": "Plata Card",
+      "balance": 7064.25,
+      "recommended": 0,
+      "due": 19,
+      "status": "Pagado este ciclo · $2,000 abonados",
+      "state": "resolved"
+    },
+    {
+      "name": "AT&T",
+      "balance": 0,
+      "recommended": 0,
+      "due": 19,
+      "status": "Pagado este ciclo",
+      "state": "resolved"
+    },
+    {
+      "name": "Suburbia",
+      "balance": 4951.15,
+      "recommended": 0,
+      "due": 21,
+      "status": "Pagado este ciclo",
+      "state": "resolved"
+    },
+    {
+      "name": "Santander Gold",
+      "balance": 1215.38,
+      "recommended": 1215.38,
+      "due": 23,
+      "status": "Pendiente",
+      "state": "pending"
+    },
+    {
+      "name": "Mercado Pago TDC",
+      "balance": 3986,
+      "recommended": 0,
+      "due": 13,
+      "status": "Pagado este ciclo",
+      "state": "resolved"
+    },
+    {
+      "name": "Mamá",
+      "balance": 950,
+      "recommended": 950,
+      "due": 28,
+      "status": "Deuda personal · pagar el 28 de septiembre con el sueldo del día 28",
+      "state": "scheduled"
+    },
+    {
+      "name": "Mercado Crédito",
+      "balance": 0,
+      "recommended": 0,
+      "due": 30,
+      "status": "Pagado este ciclo",
+      "state": "resolved"
+    },
+    {
+      "name": "Nu TDC",
+      "balance": 0,
+      "recommended": 0,
+      "due": 2,
+      "status": "Ciclo liquidado",
+      "state": "resolved"
+    }
+  ],
+  "subs": [
+    {
+      "name": "YouTube Premium",
+      "amount": 319,
+      "day": 28,
+      "card": "Santander"
+    },
+    {
+      "name": "iCloud",
+      "amount": 49,
+      "day": 30,
+      "card": "Santander"
+    },
+    {
+      "name": "iCloud Brittany",
+      "amount": 49,
+      "day": 6,
+      "card": "Santander"
+    },
+    {
+      "name": "Apple Music",
+      "amount": 69,
+      "day": 8,
+      "card": "Santander"
+    },
+    {
+      "name": "Spotify",
+      "amount": 74,
+      "day": 9,
+      "card": "Santander"
+    },
+    {
+      "name": "Suscripción Nu",
+      "amount": 39,
+      "day": 1,
+      "card": "Nu"
     }
   ]
 }
