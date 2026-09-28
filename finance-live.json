@@ -1,9 +1,9 @@
 {
-  "version": 37,
-  "debitNow": 3057.23,
+  "version": 38,
+  "debitNow": 10551.41,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
-  "updatedAt": "2026-09-25T21:21:08.097Z",
+  "updatedAt": "2026-09-05T08:40:00.000-06:00",
   "cards": [
     {
       "id": "santander-gold",
@@ -87,6 +87,12 @@
       "amount": 3000,
       "date": "2026-09-25T21:21:08.097Z",
       "note": "Depósito reportado por usuario"
+    },
+    {
+      "type": "balance_update",
+      "amount": 10551.41,
+      "date": "2026-09-05T08:40:00.000-06:00",
+      "note": "Saldo de débito confirmado por usuario"
     }
   ]
 }
