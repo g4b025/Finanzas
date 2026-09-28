@@ -1,9 +1,9 @@
 {
-  "version": 40,
+  "version": 41,
   "debitNow": 10551.41,
   "lastEmailId": "1a0b1ad63eb5df91",
   "lastTransactionAt": "2026-09-17T23:22:03.000Z",
-  "updatedAt": "2026-09-28T17:57:58.547Z",
+  "updatedAt": "2026-09-28T17:59:09.391Z",
   "cards": [
     {
       "id": "santander-gold",
@@ -146,6 +146,12 @@
       "name": "Sam's",
       "amount": 2895.89,
       "status": "Cargo pendiente en débito en los próximos días"
+    },
+    {
+      "name": "AT&T",
+      "amount": 1400,
+      "status": "Apartado para el pago del teléfono; vence el 19 de octubre",
+      "due": "2026-10-19"
     }
   ],
   "debts": [
@@ -167,11 +173,11 @@
     },
     {
       "name": "AT&T",
-      "balance": 0,
-      "recommended": 0,
+      "balance": 1400,
+      "recommended": 1400,
       "due": 19,
-      "status": "Pagado este ciclo",
-      "state": "resolved"
+      "status": "Apartar $1,400 para el teléfono · vence el 19 de octubre",
+      "state": "scheduled"
     },
     {
       "name": "Suburbia",
