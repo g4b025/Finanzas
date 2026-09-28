@@ -35,14 +35,14 @@ module.exports=async function handler(req,res){
     const debitIds=(process.env.SANTANDER_DEBIT_IDS||`${process.env.SANTANDER_DEBIT_LAST4||'5439'},1515`).split(',').map(x=>x.trim()).filter(Boolean);
     const rows=[];
     for(const x of list.messages||[]){
-      if(processed.has(x.id))continue;
       const msg=await gmail(`messages/${x.id}?format=full`,token);
       const when=Number(msg.internalDate||0);
-      if(when<=cutoff){processed.add(x.id);continue}
+      if(when<=cutoff && !live.transactions?.some(t=>t.sourceId===x.id)){ /* allow credit-card backfill below */ }
       const headers=Object.fromEntries((msg.payload?.headers||[]).map(h=>[h.name.toLowerCase(),h.value]));
       const raw=`${headers.subject||''} ${msg.snippet||''} ${stripHtml(collectText(msg.payload))}`;
       const from=(headers.from||'').toLowerCase();
       const isPayPal=from.includes('paypal.com.mx');
+      const isSantanderCredit=/8500/.test(raw) && /(unique points|tarjeta de crédito|tarjeta de credito|compra|cargo|pago recibido|pago a tarjeta)/i.test(raw);
       let paypalCardId=null,paypalConcept=null,paypalAmount=null;
       if(isPayPal){
         const am=raw.match(/Ha pagado\s*\$\s*([\d,]+\.\d{2})\s*MXN/i)||raw.match(/Pago\s*\$\s*([\d,]+\.\d{2})\s*MXN/i);
@@ -52,7 +52,9 @@ module.exports=async function handler(req,res){
         const cm=raw.match(/Ha pagado\s*\$[\d,.]+\s*MXN\s+a\s+(.+?)(?:Ver o administrar pago|Id\. de transacción|Fecha de la transacción|$)/i);
         paypalConcept=cm?cm[1].trim().replace(/\s+/g,' '):'Compra vía PayPal';
       }
-      rows.push({id:x.id,internalDate:String(when),raw,amount:isPayPal?paypalAmount:parseAmount(raw),sign:isPayPal?-1:classify(raw),isDebit:debitIds.some(id=>raw.includes(id)),subject:headers.subject||'',source:isPayPal?'PayPal':'Santander',paypalCardId,paypalConcept});
+      const santanderCreditAmount=isSantanderCredit?parseAmount(raw):null;
+      const santanderCreditDirection=isSantanderCredit && /(pago recibido|pago a tarjeta|abono)/i.test(raw)?'in':'out';
+      rows.push({id:x.id,internalDate:String(when),raw,amount:isPayPal?paypalAmount:(isSantanderCredit?santanderCreditAmount:parseAmount(raw)),sign:isPayPal?-1:(isSantanderCredit?(santanderCreditDirection==='in'?1:-1):classify(raw)),isDebit:debitIds.some(id=>raw.includes(id)),subject:headers.subject||'',source:isPayPal?'PayPal':(isSantanderCredit?'SantanderCredit':'Santander'),paypalCardId,paypalConcept,santanderCreditDirection});
     }
     rows.sort((a,b)=>Number(a.internalDate)-Number(b.internalDate));
     let net=Number(state.pendingManualDelta||0),lastId=live.lastEmailId||null,lastDate=cutoff||null;const applied=[];
@@ -62,6 +64,25 @@ module.exports=async function handler(req,res){
     if(net)applied.push({amount:Math.abs(net),direction:net<0?'out':'in',source:'pending-manual-adjustment'});
     for(const r of rows){
       processed.add(r.id);lastId=r.id;lastDate=Number(r.internalDate);
+      if(r.source==='SantanderCredit'){
+        if(!r.amount)continue;
+        const card=cards.find(x=>x.id==='santander-gold');
+        if(!card)continue;
+        const tdate=new Date(Number(r.internalDate)).toISOString();
+        if(!transactions.some(t=>t.sourceId===r.id)){
+          if(r.sign<0){
+            card.balance=Math.round((Number(card.balance||0)+r.amount)*100)/100;
+            card.used=Math.round((Number(card.used||0)+r.amount)*100)/100;
+          }else{
+            card.balance=Math.max(0,Math.round((Number(card.balance||0)-r.amount)*100)/100);
+            card.used=Math.max(0,Math.round((Number(card.used||0)-r.amount)*100)/100);
+          }
+          card.available=Math.max(0,Math.round((Number(card.creditLine)-Number(card.used))*100)/100);
+          transactions.push({id:r.id,sourceId:r.id,cardId:'santander-gold',date:tdate,amount:r.amount,direction:r.sign<0?'out':'in',concept:r.subject||'Movimiento Santander Gold',source:'Santander'});
+        }
+        applied.push({id:r.id,amount:r.amount,direction:r.sign<0?'out':'in',cardId:'santander-gold',source:'SantanderCredit'});
+        continue;
+      }
       if(r.source==='PayPal'){
         if(!r.amount||!r.paypalCardId)continue;
         const tdate=new Date(Number(r.internalDate)).toISOString();
@@ -77,6 +98,7 @@ module.exports=async function handler(req,res){
         }
         continue;
       }
+      if(processed.has(r.id))continue;
       if(!r.amount||!r.sign||!r.isDebit)continue;
       const direction=r.sign<0?'out':'in';
       if(shouldIgnoreManual(state,r.amount,direction,r.internalDate)){applied.push({id:r.id,amount:r.amount,direction,ignored:'manual-dedupe'});continue}
