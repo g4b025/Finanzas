@@ -25,8 +25,8 @@ module.exports=async function handler(req,res){
   try{
     const data=req.body?.message?.data?JSON.parse(Buffer.from(req.body.message.data,'base64').toString('utf8')):{};
     const token=await googleAccessToken();
-    const q=encodeURIComponent('{from:santander@envio.santander.com.mx from:notificaciones@notificaciones.santander.com.mx from:service@paypal.com.mx} newer_than:7d');
-    const list=await gmail(`messages?q=${q}&maxResults=25`,token);
+    const q=encodeURIComponent('{from:santander@envio.santander.com.mx from:notificaciones@notificaciones.santander.com.mx from:santander from:service@paypal.com.mx} newer_than:14d');
+    const list=await gmail(`messages?q=${q}&maxResults=100`,token);
     const stateFile=await getRepoFile('finance-sync-state.json');
     const liveFile=await getRepoFile('finance-live.json');
     const state=JSON.parse(stateFile.text);const live=JSON.parse(liveFile.text);
@@ -63,7 +63,7 @@ module.exports=async function handler(req,res){
     const paypalStart=live.paypalSyncStartAt?Date.parse(live.paypalSyncStartAt):Date.now();
     if(net)applied.push({amount:Math.abs(net),direction:net<0?'out':'in',source:'pending-manual-adjustment'});
     for(const r of rows){
-      processed.add(r.id);lastId=r.id;lastDate=Number(r.internalDate);
+      if(processed.has(r.id) && r.source!=='SantanderCredit' && r.source!=='PayPal')continue;
       if(r.source==='SantanderCredit'){
         if(!r.amount)continue;
         const card=cards.find(x=>x.id==='santander-gold');
@@ -80,7 +80,7 @@ module.exports=async function handler(req,res){
           card.available=Math.max(0,Math.round((Number(card.creditLine)-Number(card.used))*100)/100);
           transactions.push({id:r.id,sourceId:r.id,cardId:'santander-gold',date:tdate,amount:r.amount,direction:r.sign<0?'out':'in',concept:r.subject||'Movimiento Santander Gold',source:'Santander'});
         }
-        applied.push({id:r.id,amount:r.amount,direction:r.sign<0?'out':'in',cardId:'santander-gold',source:'SantanderCredit'});
+        applied.push({id:r.id,amount:r.amount,direction:r.sign<0?'out':'in',cardId:'santander-gold',source:'SantanderCredit'}); processed.add(r.id); lastId=r.id; lastDate=Number(r.internalDate);
         continue;
       }
       if(r.source==='PayPal'){
@@ -94,7 +94,7 @@ module.exports=async function handler(req,res){
             if(Number.isFinite(Number(card.creditLine)))card.available=Math.max(0,Math.round((Number(card.creditLine)-Number(card.used))*100)/100);
           }
           if(!transactions.some(t=>t.sourceId===r.id))transactions.push({id:r.id,sourceId:r.id,cardId:r.paypalCardId,date:tdate,amount:r.amount,direction:'out',concept:r.paypalConcept||'Compra vía PayPal',source:'PayPal'});
-          applied.push({id:r.id,amount:r.amount,direction:'out',cardId:r.paypalCardId,source:'PayPal'});
+          applied.push({id:r.id,amount:r.amount,direction:'out',cardId:r.paypalCardId,source:'PayPal'}); processed.add(r.id); lastId=r.id; lastDate=Number(r.internalDate);
         }
         continue;
       }
@@ -102,7 +102,7 @@ module.exports=async function handler(req,res){
       if(!r.amount||!r.sign||!r.isDebit)continue;
       const direction=r.sign<0?'out':'in';
       if(shouldIgnoreManual(state,r.amount,direction,r.internalDate)){applied.push({id:r.id,amount:r.amount,direction,ignored:'manual-dedupe'});continue}
-      net+=r.sign*r.amount;applied.push({id:r.id,amount:r.amount,direction,subject:r.subject});
+      net+=r.sign*r.amount;applied.push({id:r.id,amount:r.amount,direction,subject:r.subject}); processed.add(r.id); lastId=r.id; lastDate=Number(r.internalDate);
     }
     const next=Math.round((Number(live.debitNow||0)+net)*100)/100;
     const nextLive={...live,version:Number(live.version||21)+((net||applied.some(x=>x.source==='PayPal'))?1:0),debitNow:next,cards,transactions:transactions.slice(-500),lastEmailId:lastId,lastTransactionAt:lastDate?new Date(lastDate).toISOString():live.lastTransactionAt,updatedAt:new Date().toISOString()};
